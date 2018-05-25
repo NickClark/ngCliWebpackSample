@@ -2,8 +2,8 @@ var wallabyWebpack = require('wallaby-webpack');
 var path = require('path');
 
 var compilerOptions = Object.assign(
-  require('./tsconfig.json').compilerOptions,
-  require('./src/tsconfig.spec.json').compilerOptions);
+  require('../../tsconfig.json').compilerOptions,
+  require('./tsconfig.spec.json').compilerOptions);
 
 compilerOptions.module = 'CommonJs';
 
@@ -73,7 +73,12 @@ module.exports = function (wallaby) {
       kind: 'electron'
     },
 
-    postprocessor: webpackPostprocessor,
+    // postprocessor: webpackPostprocessor,
+    postprocessor: (wallaby) => {
+      // UNCOMMENT TO FIX
+      // wallaby.nodeModulesDir = path.resolve('../', '../', 'node_modules');
+      return webpackPostprocessor(wallaby);
+    },
 
     setup: function () {
       window.__moduleBundler.loadTests();
